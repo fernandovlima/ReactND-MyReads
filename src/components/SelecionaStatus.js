@@ -1,9 +1,16 @@
 import React from "react";
 
 const SelecionaStatus = props => {
+  const { estante, handleSelect } = props;
+
+  console.log("funcao handle : ", handleSelect);
+
   return (
     <div className="book-shelf-changer">
-      <select>
+      <select
+        value={estante ? estante : "none"}
+        onChange={e => handleSelect(e.target.value)}
+      >
         <option value="move" disabled>
           Move to...
         </option>

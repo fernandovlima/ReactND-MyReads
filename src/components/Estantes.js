@@ -11,7 +11,7 @@ const Estantes = props => {
     { id: "read", titulo: "Read" }
   ];
 
-  const { listaLivros } = props;
+  const { listaLivros, atualizaEstante } = props;
   return (
     <Fragment>
       {estantes.map(estante => (
@@ -22,6 +22,7 @@ const Estantes = props => {
               listaFiltrada={listaLivros.filter(
                 livro => livro.shelf === estante.id
               )}
+              atualizaEstante={atualizaEstante}
             />
           </div>
         </div>

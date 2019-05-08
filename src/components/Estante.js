@@ -6,7 +6,7 @@ import Livro from "./Livro";
 
 const Estante = props => {
   console.log("Lista de Livros: ", props);
-  const { titulo, listaFiltrada } = props;
+  const { titulo, listaFiltrada, atualizaEstante } = props;
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{titulo}</h2>
@@ -14,7 +14,7 @@ const Estante = props => {
         <ol className="books-grid">
           {listaFiltrada.map(livro => (
             <li key={livro.id}>
-              <Livro livro={livro} />
+              <Livro livro={livro} atualizaEstante={atualizaEstante} />
             </li>
           ))}
 

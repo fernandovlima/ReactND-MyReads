@@ -21,6 +21,13 @@ class BooksApp extends React.Component {
   }
 
   render() {
+    // atualiza o livro para a estante correta após mudar status
+    const atualizaEstante = livroAtualizado => {
+      BooksAPI.update(livroAtualizado, livroAtualizado.shelf).then(
+        () => this.listaLivros
+      );
+    };
+
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -53,7 +60,10 @@ class BooksApp extends React.Component {
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
-            <Estantes listaLivros={this.state.listaLivros} />
+            <Estantes
+              listaLivros={this.state.listaLivros}
+              atualizaEstante={atualizaEstante}
+            />
 
             <div className="open-search">
               <button onClick={() => this.setState({ showSearchPage: true })}>

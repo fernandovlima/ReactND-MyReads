@@ -24,7 +24,10 @@ class BooksApp extends React.Component {
     // atualiza o livro para a estante correta após mudar status
     const atualizaEstante = livroAtualizado => {
       BooksAPI.update(livroAtualizado, livroAtualizado.shelf).then(
-        () => this.listaLivros
+        livroAtualizado =>
+          this.setState(estadoAntigo => ({
+            listaLivros: { ...estadoAntigo, livroAtualizado }
+          }))
       );
     };
 

@@ -1,10 +1,8 @@
 import React from "react";
 
 const SelecionaStatus = props => {
+  //props
   const { estante, handleSelect } = props;
-
-  console.log("funcao handle : ", handleSelect);
-
   return (
     <div className="book-shelf-changer">
       <select

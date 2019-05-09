@@ -30,6 +30,9 @@ class BooksApp extends React.Component {
           }))
       );
     };
+    console.log("====================================");
+    console.log("lista de livros apos atualizar no APP");
+    console.log("====================================");
 
     return (
       <div className="app">

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
 //componentes
@@ -12,6 +12,9 @@ const Estantes = props => {
   ];
 
   const { listaLivros, atualizaEstante } = props;
+  console.log("====================================");
+  console.log("Lista dos livros em estantes antes do filter: ", listaLivros);
+  console.log("====================================");
   return (
     <Fragment>
       {estantes.map(estante => (
@@ -29,6 +32,11 @@ const Estantes = props => {
       ))}
     </Fragment>
   );
+};
+
+Estantes.PropTypes = {
+  listaLivros: PropTypes.array.isRequired,
+  atualizaEstante: PropTypes.func.isRequired
 };
 
 export default Estantes;

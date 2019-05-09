@@ -8,6 +8,7 @@ import SelecionaStatus from "./SelecionaStatus";
 import capa from "../assets/sem_capa.jpg";
 
 class Livro extends Component {
+  //state
   state = {
     estante: this.props.livro.shelf
   };
@@ -17,6 +18,7 @@ class Livro extends Component {
     const { livro, atualizaEstante } = this.props;
     const { title, authors } = livro;
 
+    //se o livro nao tiver imagem utiliza a imagem local padrao para livros sem capa
     const imagemLivro = () => {
       if (livro.imageLinks === undefined) {
         return capa;

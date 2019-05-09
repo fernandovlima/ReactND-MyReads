@@ -11,8 +11,8 @@ class BooksApp extends React.Component {
     showSearchPage: false
   };
 
-  //carrega lista de livros
-  componentDidMount() {
+  //carrega lista de livros da API
+  loadList() {
     BooksAPI.getAll().then(listaLivros =>
       this.setState(() => ({
         listaLivros
@@ -20,20 +20,19 @@ class BooksApp extends React.Component {
     );
   }
 
-  render() {
-    // atualiza o livro para a estante correta após mudar status
-    const atualizaEstante = livroAtualizado => {
-      BooksAPI.update(livroAtualizado, livroAtualizado.shelf).then(
-        livroAtualizado =>
-          this.setState(estadoAntigo => ({
-            listaLivros: { ...estadoAntigo, livroAtualizado }
-          }))
-      );
-    };
-    console.log("====================================");
-    console.log("lista de livros apos atualizar no APP");
-    console.log("====================================");
+  //carrega lista de livros antes do render do componente
+  componentDidMount() {
+    this.loadList();
+  }
 
+  // atualiza o livro para a estante correta após mudar status
+  atualizaEstante = livroAtualizado => {
+    BooksAPI.update(livroAtualizado, livroAtualizado.shelf).then(() => {
+      this.loadList();
+    });
+  };
+
+  render() {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -68,7 +67,7 @@ class BooksApp extends React.Component {
             </div>
             <Estantes
               listaLivros={this.state.listaLivros}
-              atualizaEstante={atualizaEstante}
+              atualizaEstante={this.atualizaEstante}
             />
 
             <div className="open-search">

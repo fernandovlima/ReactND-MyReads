@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import * as BooksAPI from "../BooksAPI";
 
@@ -69,7 +68,9 @@ class Busca extends Component {
                 <li />
               </ol>
             ) : (
-              <ol>nemhum livro foi buscado ainda</ol>
+              <ol>
+                nenhum livro a exibir, faça sua busca digitando na barra acima
+              </ol>
             )}
           </div>
         </div>
@@ -77,9 +78,5 @@ class Busca extends Component {
     );
   }
 }
-Busca.PropTypes = {
-  nomeLivro: PropTypes.string.isRequired,
-  listaResultado: PropTypes.array.isRequired,
-  carregando: PropTypes.bool.isRequired
-};
+
 export default Busca;

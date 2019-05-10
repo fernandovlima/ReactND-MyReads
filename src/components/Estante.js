@@ -28,8 +28,7 @@ const Estante = props => {
   );
 };
 
-Estante.PropTypes = {
-  listaLivros: PropTypes.array.isRequired,
+Estante.propTypes = {
   atualizaEstante: PropTypes.func.isRequired
 };
 export default Estante;

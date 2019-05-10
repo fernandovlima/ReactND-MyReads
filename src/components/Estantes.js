@@ -32,7 +32,7 @@ const Estantes = props => {
   );
 };
 
-Estantes.PropTypes = {
+Estantes.propTypes = {
   listaLivros: PropTypes.array.isRequired,
   atualizaEstante: PropTypes.func.isRequired
 };

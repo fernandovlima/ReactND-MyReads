@@ -12,9 +12,7 @@ const Estantes = props => {
   ];
 
   const { listaLivros, atualizaEstante } = props;
-  console.log("====================================");
-  console.log("Lista dos livros em estantes antes do filter: ", listaLivros);
-  console.log("====================================");
+
   return (
     <Fragment>
       {estantes.map(estante => (

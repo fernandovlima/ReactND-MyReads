@@ -44,10 +44,13 @@ class BooksApp extends React.Component {
           className=""
           exact
           path="/busca"
-          render={history => (
+          render={({ history }) => (
             <Busca
               listaLivros={this.state.listaLivros}
-              atualizaEstante={this.atualizaEstante}
+              atualizaEstante={livro => {
+                this.atualizaEstante(livro);
+                history.push("/");
+              }}
             />
           )}
         />

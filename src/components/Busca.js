@@ -14,7 +14,7 @@ class Busca extends Component {
   };
 
   buscaLivros = () => {
-    BooksAPI.search(this.nomeLivro).then(resultado =>
+    BooksAPI.search(this.state.nomeLivro).then(resultado =>
       this.setState(() => ({
         listaResultado: resultado
       }))
@@ -27,7 +27,17 @@ class Busca extends Component {
     });
   };
 
+  handler = () =>
+    setTimeout(() => {
+      const { nomeLivro } = this.state;
+      if (nomeLivro.length > 3) {
+        this.buscaLivros(nomeLivro);
+        this.setState(() => ({ carregando: true }));
+      }
+    }, 1000);
+
   render() {
+    this.handler();
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -51,7 +61,7 @@ class Busca extends Component {
                   <li key={livro.id}>
                     <Livro
                       livro={livro}
-                      atualizaEstante={this.atualizaEstante}
+                      atualizaEstante={this.props.atualizaEstante}
                     />
                   </li>
                 ))}

@@ -69,7 +69,7 @@ class Busca extends Component {
                 <li />
               </ol>
             ) : (
-              <ol>prateleira vazia</ol>
+              <ol>nemhum livro foi buscado ainda</ol>
             )}
           </div>
         </div>

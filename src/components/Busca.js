@@ -7,13 +7,12 @@ import Livro from "./Livro";
 
 class Busca extends Component {
   state = {
-    nomeLivro: "",
-    listaResultado: [],
-    carregando: false
+    termoBusca: "",
+    listaResultado: []
   };
 
   buscaLivros = () => {
-    BooksAPI.search(this.state.nomeLivro).then(resultado =>
+    BooksAPI.search(this.state.termoBusca).then(resultado =>
       this.setState(() => ({
         listaResultado: resultado
       }))
@@ -22,18 +21,24 @@ class Busca extends Component {
 
   handleInputChange = e => {
     this.setState({
-      nomeLivro: e.target.value
+      termoBusca: e.target.value
     });
   };
 
   handler = () =>
     setTimeout(() => {
-      const { nomeLivro } = this.state;
-      if (nomeLivro.length > 3) {
-        this.buscaLivros(nomeLivro);
-        this.setState(() => ({ carregando: true }));
+      const { termoBusca } = this.state;
+      if (termoBusca.length > 3) {
+        this.buscaLivros(termoBusca);
+        //this.setState(() => ({ carregando: true }));
+      } else if (termoBusca.length === 0) {
+        this.setState(() => ({ listaResultado: [] }));
       }
-    }, 1000);
+    }, 800);
+
+  componentWillUnmount() {
+    clearTimeout(this.handler);
+  }
 
   render() {
     this.handler();

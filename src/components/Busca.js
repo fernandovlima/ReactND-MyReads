@@ -26,7 +26,7 @@ class Busca extends Component {
   };
 
   handler = () =>
-    setTimeout(() => {
+    (this.time = setTimeout(() => {
       const { termoBusca } = this.state;
       if (termoBusca.length > 3) {
         this.buscaLivros(termoBusca);
@@ -34,14 +34,18 @@ class Busca extends Component {
       } else if (termoBusca.length === 0) {
         this.setState(() => ({ listaResultado: [] }));
       }
-    }, 800);
+      console.log("handler : ", this.time);
+    }, 800));
 
   componentWillUnmount() {
-    clearTimeout(this.handler);
+    clearTimeout(this.time);
+  }
+
+  componentDidUpdate() {
+    this.handler();
   }
 
   render() {
-    this.handler();
     return (
       <div className="search-books">
         <div className="search-books-bar">

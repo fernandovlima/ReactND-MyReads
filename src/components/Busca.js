@@ -8,21 +8,31 @@ import Livro from "./Livro";
 class Busca extends Component {
   state = {
     termoBusca: "",
-    listaResultado: []
+    listaResultado: [],
+    carregando: false,
+    error: false
   };
 
   buscaLivros = () => {
     BooksAPI.search(this.state.termoBusca).then(resultado =>
-      this.setState(() => ({
-        listaResultado: resultado
-      }))
+      resultado.error
+        ? this.setState(() => ({
+            carregando: false,
+            error: true
+          }))
+        : this.setState(() => ({
+            listaResultado: resultado,
+            carregando: false
+          }))
     );
   };
 
   handleInputChange = e => {
+    clearTimeout(this.time);
     this.setState({
       termoBusca: e.target.value
     });
+    this.handler();
   };
 
   handler = () =>
@@ -30,19 +40,18 @@ class Busca extends Component {
       const { termoBusca } = this.state;
       if (termoBusca.length > 3) {
         this.buscaLivros(termoBusca);
-        //this.setState(() => ({ carregando: true }));
+        this.setState(() => ({ carregando: true }));
       } else if (termoBusca.length === 0) {
-        this.setState(() => ({ listaResultado: [] }));
+        this.setState(() => ({
+          listaResultado: [],
+          carregando: false,
+          error: false
+        }));
       }
-      console.log("handler : ", this.time);
     }, 800));
 
   componentWillUnmount() {
     clearTimeout(this.time);
-  }
-
-  componentDidUpdate() {
-    this.handler();
   }
 
   render() {
@@ -62,26 +71,37 @@ class Busca extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <div className="bookshelf-books">
-            {this.state.listaResultado.length > 0 ? (
-              <ol className="books-grid">
-                {this.state.listaResultado.map(livro => (
-                  <li key={livro.id}>
-                    <Livro
-                      livro={livro}
-                      atualizaEstante={this.props.atualizaEstante}
-                    />
-                  </li>
-                ))}
+          {this.state.error ? (
+            <div>
+              <h2>Termo de busca inválido. Digite novamente</h2>
+            </div>
+          ) : (
+            <div />
+          )}
+          {this.state.carregando ? (
+            "Carregando..."
+          ) : (
+            <div className="bookshelf-books">
+              {this.state.listaResultado.length > 0 ? (
+                <ol className="books-grid">
+                  {this.state.listaResultado.map(livro => (
+                    <li key={livro.id}>
+                      <Livro
+                        livro={livro}
+                        atualizaEstante={this.props.atualizaEstante}
+                      />
+                    </li>
+                  ))}
 
-                <li />
-              </ol>
-            ) : (
-              <ol>
-                nenhum livro a exibir, faça sua busca digitando na barra acima
-              </ol>
-            )}
-          </div>
+                  <li />
+                </ol>
+              ) : (
+                <ol>
+                  nenhum livro a exibir, faça sua busca digitando na barra acima
+                </ol>
+              )}
+            </div>
+          )}
         </div>
       </div>
     );

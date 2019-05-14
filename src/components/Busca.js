@@ -38,9 +38,13 @@ class Busca extends Component {
   handler = () =>
     (this.time = setTimeout(() => {
       const { termoBusca } = this.state;
+      const { listaLivros } = this.props;
       if (termoBusca.length > 3) {
         this.buscaLivros(termoBusca);
-        this.setState(() => ({ carregando: true }));
+        this.setState(() => ({
+          listaResultado: comparaListas(listaLivros, this.state.listaResultado),
+          carregando: true
+        }));
       } else if (termoBusca.length === 0) {
         this.setState(() => ({
           listaResultado: [],
@@ -109,3 +113,22 @@ class Busca extends Component {
 }
 
 export default Busca;
+
+function comparaListas(listaProps, listaBusca) {
+  const listaID = getIdAsIndex(listaProps);
+  console.log(" LISTA com ID ", listaID);
+  console.log(" LISTA do PROPS ", listaProps);
+  console.log("LISTA BUSCA", listaBusca);
+
+  return listaBusca.map(livro =>
+    livro.id === listaID[livro.id] ? livro : listaID[livro.id]
+  );
+}
+
+//use the id of content as index of the array
+function getIdAsIndex(array) {
+  return array.reduce((all, line) => {
+    all[line.id] = line;
+    return all;
+  }, {});
+}

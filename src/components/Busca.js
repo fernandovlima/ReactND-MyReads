@@ -21,7 +21,7 @@ class Busca extends Component {
             error: true
           }))
         : this.setState(() => ({
-            listaResultado: resultado,
+            listaResultado: comparaListas(this.props.listaLivros, resultado),
             carregando: false
           }))
     );
@@ -38,13 +38,9 @@ class Busca extends Component {
   handler = () =>
     (this.time = setTimeout(() => {
       const { termoBusca } = this.state;
-      const { listaLivros } = this.props;
       if (termoBusca.length > 3) {
         this.buscaLivros(termoBusca);
-        this.setState(() => ({
-          listaResultado: comparaListas(listaLivros, this.state.listaResultado),
-          carregando: true
-        }));
+        this.setState(() => ({ carregando: true, error: false }));
       } else if (termoBusca.length === 0) {
         this.setState(() => ({
           listaResultado: [],
@@ -70,39 +66,41 @@ class Busca extends Component {
               value={this.state.nomeLivro}
               onChange={this.handleInputChange}
               type="text"
-              placeholder="Search by title or author"
+              placeholder="busca por título ou autor"
             />
           </div>
         </div>
         <div className="search-books-results">
           {this.state.error ? (
-            <div>
+            <div className="busca-invalida">
               <h2>Termo de busca inválido. Digite novamente</h2>
             </div>
           ) : (
-            <div />
-          )}
-          {this.state.carregando ? (
-            "Carregando..."
-          ) : (
-            <div className="bookshelf-books">
-              {this.state.listaResultado.length > 0 ? (
-                <ol className="books-grid">
-                  {this.state.listaResultado.map(livro => (
-                    <li key={livro.id}>
-                      <Livro
-                        livro={livro}
-                        atualizaEstante={this.props.atualizaEstante}
-                      />
-                    </li>
-                  ))}
-
-                  <li />
-                </ol>
+            <div className="busca-invalida">
+              {this.state.carregando ? (
+                "Carregando..."
               ) : (
-                <ol>
-                  nenhum livro a exibir, faça sua busca digitando na barra acima
-                </ol>
+                <div className="bookshelf-books">
+                  {this.state.listaResultado.length > 0 ? (
+                    <ol className="books-grid">
+                      {this.state.listaResultado.map(livro => (
+                        <li key={livro.id}>
+                          <Livro
+                            livro={livro}
+                            atualizaEstante={this.props.atualizaEstante}
+                          />
+                        </li>
+                      ))}
+
+                      <li />
+                    </ol>
+                  ) : (
+                    <ol>
+                      nenhum livro a exibir, faça sua busca digitando na barra
+                      acima
+                    </ol>
+                  )}
+                </div>
               )}
             </div>
           )}
@@ -116,12 +114,8 @@ export default Busca;
 
 function comparaListas(listaProps, listaBusca) {
   const listaID = getIdAsIndex(listaProps);
-  console.log(" LISTA com ID ", listaID);
-  console.log(" LISTA do PROPS ", listaProps);
-  console.log("LISTA BUSCA", listaBusca);
-
   return listaBusca.map(livro =>
-    livro.id === listaID[livro.id] ? livro : listaID[livro.id]
+    typeof listaID[livro.id] === "undefined" ? livro : listaID[livro.id]
   );
 }
 

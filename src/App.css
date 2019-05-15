@@ -198,3 +198,7 @@ button:active {
   text-align: center;
   font-size: 0.8em;
 }
+
+.busca-invalida {
+  text-align: center;
+}
